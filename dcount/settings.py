@@ -80,7 +80,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'dcount',
         'USER': 'davy',
-        'PASSWORD': 'davy0718',
+        'PASSWORD': 'password',
         'HOST': 'localhost',
         'PORT': '',
     }
@@ -125,6 +125,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATIC_ROOT = os.path.join(BASE_DIR, "static/")
+
 STATICFILES_DIRS = [
-    "../../data_parser/templates",
+    "./data_parser/templates",
  ]
