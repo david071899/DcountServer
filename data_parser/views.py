@@ -61,7 +61,7 @@ def parse_id(category):
     for post in res.json():
       try:
         
-        PostData.objects.create(
+        PostData.objects.update_or_create(
           id = post["id"],
           title = post["title"],
           gender = post["gender"],
