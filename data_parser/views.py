@@ -60,17 +60,31 @@ def parse_id(category):
     #create row data
     for post in res.json():
       try:
-        
-        PostData.objects.update_or_create(
-          id = post["id"],
-          title = post["title"],
-          gender = post["gender"],
-          like_count = post["likeCount"],
-          comment_count = post["commentCount"],
-          created_at = post["createdAt"],
-          forum_alias = post["forumAlias"],
-          forum_name = post["forumName"]
-        )
+
+        if post["anonymousSchool"]:
+          PostData.objects.update_or_create(
+            id = post["id"],
+            title = post["title"],
+            gender = post["gender"],
+            like_count = post["likeCount"],
+            comment_count = post["commentCount"],
+            created_at = post["createdAt"],
+            forum_alias = post["forumAlias"],
+            forum_name = post["forumName"],
+            school_name = "anonymous"
+          )
+        else:
+          PostData.objects.update_or_create(
+            id = post["id"],
+            title = post["title"],
+            gender = post["gender"],
+            like_count = post["likeCount"],
+            comment_count = post["commentCount"],
+            created_at = post["createdAt"],
+            forum_alias = post["forumAlias"],
+            forum_name = post["forumName"],
+            school_name = post["school"]
+          )
 
       except Exception,e:
 
