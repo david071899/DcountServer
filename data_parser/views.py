@@ -153,7 +153,7 @@ def index(request):
 
 
 def parse_content(request):
-  for post in PostData.objects.all():
+  for post in PostData.objects.filter(school_name = ""):
 
     print post.id
 
