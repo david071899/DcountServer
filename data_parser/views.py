@@ -172,7 +172,7 @@ def parse_content(request):
 
       post.save()
 
-      return render_to_response('index.html',RequestContext(request,locals()))
+  return render_to_response('index.html',RequestContext(request,locals()))
 
 
   # for post in PostData.objects.filter(school_name = ""):
