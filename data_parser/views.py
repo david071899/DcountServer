@@ -161,7 +161,10 @@ def parse_content(request):
     for post in PostData.objects.filter(forum_alias = category):
       print post.id
 
-      res = requests.get("https://www.dcard.tw/_api/posts/" + str(post.id)).json()
+      try:
+        res = requests.get("https://www.dcard.tw/_api/posts/" + str(post.id)).json()
+      except Exception,e:
+        print str(e)
 
       try:
         post.content = res["content"]
