@@ -159,7 +159,7 @@ def parse_content(request):
     print category
 
     for post in PostData.objects.filter(forum_alias = category):
-      print post
+      print post.id
 
       res = requests.get("https://www.dcard.tw/_api/posts/" + str(post.id)).json()
 
