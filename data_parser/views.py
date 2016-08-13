@@ -153,22 +153,46 @@ def index(request):
 
 
 def parse_content(request):
-  for post in PostData.objects.filter(school_name = ""):
+  category_list = get_category()
 
-    print post.id
+  for category in category_list:
+    print category
 
-    res = requests.get("https://www.dcard.tw/_api/posts/" + str(post.id)).json()
+    for post in PostData.objects.filter(forum_alias = category):
+      print post
 
-    post.content = res["content"]
+      res = requests.get("https://www.dcard.tw/_api/posts/" + str(post.id)).json()
 
-    if res["anonymousSchool"]:
-      post.school_name = "anonymous"
-    else:
-      post.school_name = res["school"]
+      post.content = res["content"]
 
-    post.save()
+      if res["anonymousSchool"]:
+        post.school_name = "anonymous"
+      else:
+        post.school_name = res["school"]
 
-    return render_to_response('index.html',RequestContext(request,locals()))
+      post.save()
+
+      return render_to_response('index.html',RequestContext(request,locals()))
+
+
+  # for post in PostData.objects.filter(school_name = ""):
+
+  #   print post.id
+
+  #   res = requests.get("https://www.dcard.tw/_api/posts/" + str(post.id)).json()
+
+  #   post.content = res["content"]
+
+  #   if res["anonymousSchool"]:
+  #     post.school_name = "anonymous"
+  #   else:
+  #     post.school_name = res["school"]
+
+  #   post.save()
+
+  #   return render_to_response('index.html',RequestContext(request,locals()))
+
+
 # def get_end_id():
 #   res = requests.get("https://www.dcard.tw/f?latest=true")
 #   soup = BeautifulSoup(res.text, 'html.parser')
