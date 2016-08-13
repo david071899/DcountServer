@@ -155,7 +155,9 @@ def index(request):
 def parse_content(request):
   category_list = get_category()
 
-  category_list = random.choice(category_list)
+  print category_list
+
+  category_list = reversed(category_list)
 
   for category in category_list:
     print category
@@ -175,7 +177,7 @@ def parse_content(request):
           post.school_name = "anonymous"
         else:
           post.school_name = res["school"]
-          
+
       except Exception,e:
         print str(e)
 
