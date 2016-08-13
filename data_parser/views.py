@@ -64,34 +64,31 @@ def parse_id(category):
         if post["anonymousSchool"]:
           PostData.objects.update_or_create(
             id = post["id"],
-            title = post["title"],
-            gender = post["gender"],
-            like_count = post["likeCount"],
-            comment_count = post["commentCount"],
-            created_at = post["createdAt"],
-            forum_alias = post["forumAlias"],
-            forum_name = post["forumName"],
-            school_name = "anonymous"
-          )
+            default = {
+            'title': post["title"],
+            'gender': post["gender"],
+            'like_count': post["likeCount"],
+            'comment_count': post["commentCount"],
+            'created_at': post["createdAt"],
+            'forum_alias': post["forumAlias"],
+            'forum_name': post["forumName"],
+            'school_name': "anonymous"
+          })
         else:
           PostData.objects.update_or_create(
             id = post["id"],
-            title = post["title"],
-            gender = post["gender"],
-            like_count = post["likeCount"],
-            comment_count = post["commentCount"],
-            created_at = post["createdAt"],
-            forum_alias = post["forumAlias"],
-            forum_name = post["forumName"],
-            school_name = post["school"]
-          )
+            default = {
+            'title': post["title"],
+            'gender': post["gender"],
+            'like_count': post["likeCount"],
+            'comment_count': post["commentCount"],
+            'created_at': post["createdAt"],
+            'forum_alias': post["forumAlias"],
+            'forum_name': post["forumName"],
+            'school_name': post["school"]
+          })
 
       except Exception,e:
-
-        ParseError.objects.create(
-          id = post["id"],
-          content = str(e)
-        )
 
         continue
 
