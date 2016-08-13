@@ -154,6 +154,10 @@ def index(request):
 
 def parse_content(request):
   for post in PostData.objects.all():
+    sleep(1)
+
+    print post
+
     res = requests.get("https://www.dcard.tw/_api/posts/" + str(post.id)).json()
 
     post.content = res["content"]
@@ -164,6 +168,8 @@ def parse_content(request):
       post.school_name = res["school"]
 
     post.save()
+
+    return render_to_response('index.html',RequestContext(request,locals()))
 # def get_end_id():
 #   res = requests.get("https://www.dcard.tw/f?latest=true")
 #   soup = BeautifulSoup(res.text, 'html.parser')
