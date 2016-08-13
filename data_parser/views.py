@@ -6,7 +6,7 @@ from django.template import RequestContext
 
 import requests
 from bs4 import BeautifulSoup
-# import multiprocessing
+import random
 from threading import Thread, Lock
 import time
 
@@ -155,6 +155,8 @@ def index(request):
 def parse_content(request):
   category_list = get_category()
 
+  category_list = random.choice(category_list)
+
   for category in category_list:
     print category
 
@@ -163,18 +165,20 @@ def parse_content(request):
 
       try:
         res = requests.get("https://www.dcard.tw/_api/posts/" + str(post.id)).json()
+
+        try:
+          post.content = res["content"]
+        except:
+          post.content = "post no found"
+
+        if res["anonymousSchool"]:
+          post.school_name = "anonymous"
+        else:
+          post.school_name = res["school"]
+          
       except Exception,e:
         print str(e)
 
-      try:
-        post.content = res["content"]
-      except:
-        post.content = "post no found"
-
-      if res["anonymousSchool"]:
-        post.school_name = "anonymous"
-      else:
-        post.school_name = res["school"]
 
       post.save()
 
