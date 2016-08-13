@@ -154,9 +154,8 @@ def index(request):
 
 def parse_content(request):
   for post in PostData.objects.all():
-    time.sleep(1)
 
-    print post
+    print post.id
 
     res = requests.get("https://www.dcard.tw/_api/posts/" + str(post.id)).json()
 
