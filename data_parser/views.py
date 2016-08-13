@@ -163,7 +163,10 @@ def parse_content(request):
 
       res = requests.get("https://www.dcard.tw/_api/posts/" + str(post.id)).json()
 
-      post.content = res["content"]
+      try:
+        post.content = res["content"]
+      except:
+        post.content = "post no found"
 
       if res["anonymousSchool"]:
         post.school_name = "anonymous"
