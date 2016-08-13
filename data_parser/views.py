@@ -154,7 +154,7 @@ def index(request):
 
 def parse_content(request):
   for post in PostData.objects.all():
-    sleep(1)
+    time.sleep(1)
 
     print post
 
