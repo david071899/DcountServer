@@ -152,6 +152,18 @@ def index(request):
   return render_to_response('index.html',RequestContext(request,locals()))
 
 
+def parse_content(request):
+  for post in PostData.objects.all():
+    res = requests.get("https://www.dcard.tw/_api/posts/" + str(post.id)).json()
+
+    post.content = res["content"]
+
+    if res["anonymousSchool"]:
+      post.school_name = "anonymous"
+    else:
+      post.school_name = res["school"]
+
+    post.save()
 # def get_end_id():
 #   res = requests.get("https://www.dcard.tw/f?latest=true")
 #   soup = BeautifulSoup(res.text, 'html.parser')

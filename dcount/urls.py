@@ -15,9 +15,11 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from data_parser.views import index
+from data_parser.views import index, parse_content
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'parser/', index)
+    url(r'parser/', index),
+    url(r'parse_content', parse_content)
 ]
