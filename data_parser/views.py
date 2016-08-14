@@ -125,7 +125,28 @@ def parse_id(category):
 #     worker.join()
 
   
+def parse_content_data(category):
+  for post in PostData.objects.filter(forum_alias = category):
+    print post.id
 
+    try:
+      res = requests.get("https://www.dcard.tw/_api/posts/" + str(post.id)).json()
+
+      try:
+        post.content = res["content"]
+      except:
+        post.content = "post no found"
+
+      if res["anonymousSchool"]:
+        post.school_name = "anonymous"
+      else:
+        post.school_name = res["school"]
+
+    except Exception,e:
+      print str(e)
+
+
+    post.save()  
 
 def index(request):
   category_list = get_category()
@@ -159,30 +180,18 @@ def parse_content(request):
 
   category_list = reversed(category_list)
 
+  workers = []
+
   for category in category_list:
-    print category
+    worker = Thread(target = parse_content_data, args = (category, ))
+    workers.append(worker)
+    worker.start()
 
-    for post in PostData.objects.filter(forum_alias = category):
-      print post.id
+    
+  for worker in workers:
+    worker.join()    
 
-      try:
-        res = requests.get("https://www.dcard.tw/_api/posts/" + str(post.id)).json()
-
-        try:
-          post.content = res["content"]
-        except:
-          post.content = "post no found"
-
-        if res["anonymousSchool"]:
-          post.school_name = "anonymous"
-        else:
-          post.school_name = res["school"]
-
-      except Exception,e:
-        print str(e)
-
-
-      post.save()
+    
 
   return render_to_response('index.html',RequestContext(request,locals()))
 
