@@ -54,7 +54,7 @@ def parse_id(category):
         if post["anonymousSchool"]:
           PostData.objects.update_or_create(
             id = post["id"],
-            default = {
+            defaults = {
             'title': post["title"],
             'gender': post["gender"],
             'like_count': post["likeCount"],
@@ -67,7 +67,7 @@ def parse_id(category):
         else:
           PostData.objects.update_or_create(
             id = post["id"],
-            default = {
+            defaults = {
             'title': post["title"],
             'gender': post["gender"],
             'like_count': post["likeCount"],
@@ -79,7 +79,7 @@ def parse_id(category):
           })
 
       except Exception,e:
-        
+
         print str(e)
         continue
 
