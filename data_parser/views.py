@@ -12,7 +12,7 @@ import time
 
 
 def get_category():
-  res = requests.get("https://www.dcard.tw/f")
+  res = requests.get("https://www.dcard.tw/f", headers = { 'Connection':'close' })
   soup = BeautifulSoup(res.text, 'html.parser')
   target_tag = soup.find_all('a', class_ = "ForumEntry_link_3tNC4")
 
@@ -34,7 +34,7 @@ def parse_id(category):
     print id_loop
 
     try:
-      res = requests.get("https://www.dcard.tw/_api/forums/"+ category +"/posts?popular=false" + str(id_loop))
+      res = requests.get("https://www.dcard.tw/_api/forums/"+ category +"/posts?popular=false" + str(id_loop), headers = { 'Connection':'close' })
 
       if res.json() != []:
         id_loop = "&before=" + str(res.json()[-1]["id"])
@@ -89,7 +89,7 @@ def parse_content_func(category):
   print category
   
   for post in PostData.objects.filter(forum_alias = category):
-      res = requests.get("https://www.dcard.tw/_api/posts/"+ str(post.id)).json()
+      res = requests.get("https://www.dcard.tw/_api/posts/"+ str(post.id), headers = { 'Connection':'close' }).json()
 
       post.title = res["title"]
       post.gender = res["gender"]
@@ -121,7 +121,7 @@ def parse_content_data(category):
     print post.id
 
     try:
-      res = requests.get("https://www.dcard.tw/_api/posts/" + str(post.id)).json()
+      res = requests.get("https://www.dcard.tw/_api/posts/" + str(post.id), headers = { 'Connection':'close' }).json()
 
       try:
         post.content = res["content"]
