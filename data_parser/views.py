@@ -118,6 +118,8 @@ def parse_content(category_list):
   
 def parse_content_data(category):
   for post in PostData.objects.filter(forum_alias = category):
+    
+    time.sleep(0.5)
     print post.id
 
     try:
@@ -136,6 +138,7 @@ def parse_content_data(category):
     except Exception,e:
       print str(e)
 
+      continue
 
     post.save()  
 
