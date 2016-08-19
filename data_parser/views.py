@@ -36,16 +36,18 @@ def parse_id(category):
     try:
       res = requests.get("https://www.dcard.tw/_api/forums/"+ category +"/posts?popular=false" + str(id_loop), headers = { 'Connection':'close' })
 
-      if res.json() != []:
-        id_loop = "&before=" + str(res.json()[-1]["id"])
-      elif res.json() == []:
-       break
+      print res.status_code
+
+      id_loop = "&before=" + str(res.json()[-1]["id"])      
 
     except Exception,e:
 
       print str(e)
 
-      break
+      if str(e) == "list index out of range":
+        break
+      else:
+        continue
     
     #create row data
     for post in res.json():
@@ -118,7 +120,7 @@ def parse_content(category_list):
   
 def parse_content_data(category):
   for post in PostData.objects.filter(forum_alias = category):
-    
+
     time.sleep(0.5)
     print post.id
 
