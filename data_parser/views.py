@@ -49,7 +49,7 @@ def parse_id(category):
         break
       else:
         print "幹幹幹幹幹幹幹幹幹幹幹幹幹幹幹幹幹幹幹幹"
-        time.sleep(5)
+        time.sleep(10)
         continue
     
     #create row data
