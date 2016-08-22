@@ -28,13 +28,14 @@ def parse_id(category):
 
   id_loop = ""
 
+  s = requests.Session()
+  s.keep_alive = False
 
   while True:
-
     print id_loop
 
     try:
-      res = requests.get("https://www.dcard.tw/_api/forums/"+ category +"/posts?popular=false" + str(id_loop), headers = { 'Connection':'close' })
+      res = s.get("https://www.dcard.tw/_api/forums/"+ category +"/posts?popular=false" + str(id_loop))
 
       print res.status_code
 
@@ -47,6 +48,8 @@ def parse_id(category):
       if str(e) == "list index out of range":
         break
       else:
+        print "幹幹幹幹幹幹幹幹幹幹幹幹幹幹幹幹幹幹幹幹"
+        time.sleep(5)
         continue
     
     #create row data
