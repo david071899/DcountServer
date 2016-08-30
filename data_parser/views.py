@@ -179,7 +179,7 @@ def parse_content(request):
 
   workers = []
 
-  for category in category_list:
+  for category in category_list[0:32]:
     worker = Thread(target = parse_content_data, args = (category, ))
     workers.append(worker)
     worker.start()
