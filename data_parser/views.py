@@ -4,6 +4,8 @@ from data_parser.models import PostData, ParseError
 from django.shortcuts import  render_to_response
 from django.template import RequestContext
 
+from parser_method.testt import testt
+
 import requests
 from bs4 import BeautifulSoup
 import random
@@ -94,19 +96,15 @@ def parse_content_func(category):
   print category
   
   for post in PostData.objects.filter(forum_alias = category):
-      res = requests.get("https://www.dcard.tw/_api/posts/"+ str(post.id), headers = { 'Connection':'close' }).json()
+    res = requests.get("https://www.dcard.tw/_api/posts/"+ str(post.id), headers = { 'Connection':'close' }).json()
 
-      post.title = res["title"]
-      post.gender = res["gender"]
-      post.created_at = res["createdAt"]
-      post.like_count = res["likeCount"]
-      post.comment_count = res["commentCount"]
-      post.content = res["content"]
+    post.like_count = res["likeCount"]
+    post.comment_count = res["commentCount"]
+    post.content = res["content"]
 
-      print str(post.id) + "parse content"
+    print str(post.id) + "parse content"
 
-      post.save()
-
+    post.save()
 
 
 def parse_content(category_list):
@@ -159,7 +157,6 @@ def index(request):
     worker = Thread(target = parse_id, args = (i, ))
     workers.append(worker)
     worker.start()
-
     
   for worker in workers:
     worker.join()
@@ -186,14 +183,17 @@ def parse_content(request):
     workers.append(worker)
     worker.start()
 
-    
   for worker in workers:
-    worker.join()    
-
-    
+    worker.join()
 
   return render_to_response('index.html',RequestContext(request,locals()))
 
+
+def test(request):
+
+  print testt(1)
+
+  return render_to_response('index.html',RequestContext(request,locals()))
 
 
 
