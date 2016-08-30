@@ -120,7 +120,7 @@ def parse_content(category_list):
 
   
 def parse_content_data(category):
-  for post in PostData.objects.filter(forum_alias = category):
+  for post in PostData.objects.filter(forum_alias = category).filter(content=''):
 
     time.sleep(0.5)
     print post.id
@@ -131,7 +131,8 @@ def parse_content_data(category):
       try:
         post.content = res["content"]
       except:
-        post.content = "post no found"
+        # post.content = "post no found"
+        pass
 
       if res["anonymousSchool"]:
         post.school_name = "anonymous"
