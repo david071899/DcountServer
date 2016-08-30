@@ -110,7 +110,7 @@ def parse_content_func(category):
 def parse_content(category_list):
 
   content_workers = []
-  for category in category_list:
+  for category in category_list[0:32]:
     worker = Thread(target = parse_content_func, args = (category, ))
     content_workers.append(worker)
     worker.start()
@@ -172,6 +172,7 @@ def index(request):
 def parse_content(request):
   category_list = get_category()
 
+  print "all category"
   print category_list
 
   category_list = reversed(category_list)
