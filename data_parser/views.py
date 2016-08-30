@@ -175,7 +175,7 @@ def parse_content(request):
   print "all category"
   print category_list
 
-  category_list = reversed(category_list)
+  # category_list = reversed(category_list)
 
   workers = []
 
