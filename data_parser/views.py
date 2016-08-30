@@ -134,10 +134,10 @@ def parse_content_data(category):
         # post.content = "post no found"
         pass
 
-      if res["anonymousSchool"]:
-        post.school_name = "anonymous"
-      else:
-        post.school_name = res["school"]
+      # if res["anonymousSchool"]:
+      #   post.school_name = "anonymous"
+      # else:
+      #   post.school_name = res["school"]
 
     except Exception,e:
       print str(e)
