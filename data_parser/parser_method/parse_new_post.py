@@ -31,7 +31,7 @@ def parse_id(category):
   except Exception,e:
     print category
     print str(e)
-    break
+    pass
 
   s = requests.Session()
   s.keep_alive = False
