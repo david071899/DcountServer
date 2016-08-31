@@ -25,7 +25,13 @@ def parse_id(category):
   id_param = ""
 
   now_parse_id = ''
-  the_latest_post_id = PostData.objects.filter(forum_alias = category).last().id
+
+  try:
+    the_latest_post_id = PostData.objects.filter(forum_alias = category).last().id
+  except Exception,e:
+    print category
+    print str(e)
+    break
 
   s = requests.Session()
   s.keep_alive = False
