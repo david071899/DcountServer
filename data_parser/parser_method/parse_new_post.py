@@ -29,6 +29,10 @@ def parse_id(category):
   try:
     the_latest_post_id = PostData.objects.filter(forum_alias = category).last().id
   except Exception,e:
+
+    now_parse_id = 1
+    the_latest_post_id = 0
+    
     print category
     print str(e)
     pass
@@ -103,6 +107,8 @@ def start_parse_new_post():
   category_list = get_category()
   
   workers = []
+
+  print category_list
 
   for i in category_list:
     
