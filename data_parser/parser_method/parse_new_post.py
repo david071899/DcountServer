@@ -22,20 +22,25 @@ def get_category():
 
 def parse_id(category):
 
-  id_loop = ""
+  id_param = ""
+
+  now_parse_id = ''
+  the_latest_post_id = PostData.objects.filter(forum_alias = category).last().id
 
   s = requests.Session()
   s.keep_alive = False
 
-  while True:
-    print id_loop
+  while now_parse_id > int(the_latest_post_id):
+    print id_param
 
     try:
-      res = s.get("https://www.dcard.tw/_api/forums/"+ category +"/posts?popular=false" + str(id_loop))
+      res = s.get("https://www.dcard.tw/_api/forums/"+ category +"/posts?popular=false" + str(id_param))
 
       print res.status_code
 
-      id_loop = "&before=" + str(res.json()[-1]["id"])      
+      id_param = "&before=" + str(res.json()[-1]["id"])
+
+      now_parse_id = int(res.json()[-1]["id"])
 
     except Exception,e:
 
@@ -52,7 +57,7 @@ def parse_id(category):
     for post in res.json():
       try:
 
-        # content_res = requests.get("https://www.dcard.tw/_api/posts/" + str(post["id"]), headers = { 'Connection':'close' }).json()
+        content_res = requests.get("https://www.dcard.tw/_api/posts/" + str(post["id"]), headers = { 'Connection':'close' }).json()
 
         if post["anonymousSchool"]:
           PostData.objects.update_or_create(
@@ -65,6 +70,7 @@ def parse_id(category):
             'created_at': post["createdAt"],
             'forum_alias': post["forumAlias"],
             'forum_name': post["forumName"],
+            'content': content_res["content"],
             'school_name': "anonymous"
           })
         else:
@@ -78,6 +84,7 @@ def parse_id(category):
             'created_at': post["createdAt"],
             'forum_alias': post["forumAlias"],
             'forum_name': post["forumName"],
+            'content': content_res["content"],
             'school_name': post["school"]
           })
 
@@ -86,7 +93,7 @@ def parse_id(category):
         print str(e)
         continue 
 
-def start_parse_post():
+def start_parse_new_post():
   category_list = get_category()
   
   workers = []
@@ -99,10 +106,4 @@ def start_parse_post():
     
   for worker in workers:
     worker.join()
-
-
-
-
-
-
 

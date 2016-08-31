@@ -6,6 +6,7 @@ from django.template import RequestContext
 
 from parser_method.parse_all_content import start_parse_content
 from parser_method.parse_all_post import start_parse_post
+from parser_method.parse_new_post import start_parse_new_post
 
 import requests
 from bs4 import BeautifulSoup
@@ -37,7 +38,17 @@ def parse_all_content(request):
 
   return render_to_response('index.html',RequestContext(request,locals()))
 
+def parse_new_content(request):
 
+  tStart = time.time()
+
+  start_parse_new_post()
+
+  tEnd = time.time()
+
+  spent_time = tEnd - tStart
+
+  return render_to_response('index.html',RequestContext(request,locals()))
 
 
 
