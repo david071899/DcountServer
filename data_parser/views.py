@@ -3,6 +3,7 @@ from django.shortcuts import render
 from data_parser.models import PostData, ParseError
 from django.shortcuts import  render_to_response
 from django.template import RequestContext
+from django.db.models import Q
 
 from parser_method.parse_all_content import start_parse_content
 from parser_method.parse_all_post import start_parse_post

@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 from data_parser.models import PostData, ParseError
+from django.db.models import Q
 
 import requests
 from bs4 import BeautifulSoup
 from threading import Thread, Lock
 import time
+from datetime import datetime
 
 
 def get_category():
@@ -65,7 +67,9 @@ def parse_id(category):
             'created_at': post["createdAt"],
             'forum_alias': post["forumAlias"],
             'forum_name': post["forumName"],
-            'school_name': "anonymous"
+            'school_name': "anonymous",
+            'status': 'online',
+            'updated_at': datetime.today().strftime('%Y%m%d')
           })
         else:
           PostData.objects.update_or_create(
@@ -78,13 +82,19 @@ def parse_id(category):
             'created_at': post["createdAt"],
             'forum_alias': post["forumAlias"],
             'forum_name': post["forumName"],
-            'school_name': post["school"]
+            'school_name': post["school"],
+            'status': 'online',
+            'updated_at': datetime.today().strftime('%Y%m%d')
           })
 
       except Exception,e:
 
         print str(e)
         continue 
+
+  # change the posts status that aren't updated -> maybe be deleted by dcard root
+
+  PostData.objects.filter(forum_alias = category).filter(~Q(updated_at = datetime.today().strftime('%Y%m%d'))).updated(status = 'disappear')
 
 def start_parse_post():
   category_list = get_category()
