@@ -69,7 +69,7 @@ def parse_id(category):
             'forum_name': post["forumName"],
             'school_name': "anonymous",
             'status': 'online',
-            'updated_at': datetime.today()
+            'updated_at': datetime.today().strftime('%Y%m%d')
           })
         else:
           PostData.objects.update_or_create(
@@ -84,7 +84,7 @@ def parse_id(category):
             'forum_name': post["forumName"],
             'school_name': post["school"],
             'status': 'online',
-            'updated_at': datetime.today()
+            'updated_at': datetime.today().strftime('%Y%m%d')
           })
 
       except Exception,e:
