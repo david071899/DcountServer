@@ -17,7 +17,7 @@ class PostData(models.Model):
   id = models.AutoField(primary_key = True)
   content = models.TextField()
   status = models.CharField(max_length = 255, default = 'online')
-  updated_at = models.DateTimeField(default = datetime.now, blank = True)
+  updated_at = models.CharField(max_length = 255, default = 'no updated yet')
 
   def __unicode__(self):
     return unicode(self.title)
