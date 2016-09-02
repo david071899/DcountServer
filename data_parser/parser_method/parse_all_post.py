@@ -94,7 +94,7 @@ def parse_id(category):
 
   # change the posts status that aren't updated -> maybe be deleted by dcard root
 
-  PostData.objects.filter(forum_alias = category).filter(~Q(updated_at = datetime.today().strftime('%Y%m%d'))).updated(status = 'disappear')
+  PostData.objects.filter(forum_alias = category).filter(~Q(updated_at = datetime.today().strftime('%Y%m%d'))).update(status = 'disappear')
 
 def start_parse_post():
   category_list = get_category()
