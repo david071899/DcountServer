@@ -39,7 +39,7 @@ def parse_all_content(request):
 
   return render_to_response('index.html',RequestContext(request,locals()))
 
-def parse_new_content(request):
+def parse_new_post(request):
 
   tStart = time.time()
 

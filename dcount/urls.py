@@ -15,12 +15,12 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from data_parser.views import parse_all_post, parse_all_content, parse_new_content
+from data_parser.views import parse_all_post, parse_all_content, parse_new_post
 
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'parse_all_post/', parse_all_post),
     url(r'parse_all_content/', parse_all_content),
-    url(r'parse_new_content/', parse_new_content)
+    url(r'parse_new_post/', parse_new_post)
 ]
