@@ -1,4 +1,5 @@
 from data_parser.models import PostData, ParseError
+from django.db.models import Q
 
 import requests
 from bs4 import BeautifulSoup
@@ -35,7 +36,6 @@ def parse_all_content(generator, sleep_sec):
     try:
       category = generator.next()
       print category
-
     except Exception,e:
       break
 
@@ -44,10 +44,11 @@ def parse_all_content(generator, sleep_sec):
       try:
         res = requests.get("https://www.dcard.tw/_api/posts/" + str(post.id), headers = { 'Connection':'close' }).json()
 
-        try:
+        if 'error' in res:
+          # post maybe deleted
+          post.content = 'Post not found'
+        elif 'content' in res:
           post.content = res["content"]
-        except:
-          pass
 
       except Exception,e:
         print str(e)
