@@ -65,12 +65,11 @@ def start_parse_content():
 
   workers = []
 
-  for i in range(15):
+  for i in range(5):
     worker = Thread(target = parse_all_content, args = (generator, i, ))
     workers.append(worker)
     worker.start()
+
+  for worker in workers:
     worker.join()
-    
-  # for worker in workers:
-  #   worker.join()
   
